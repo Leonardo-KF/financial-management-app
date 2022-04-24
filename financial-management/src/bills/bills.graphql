@@ -1,0 +1,24 @@
+type Bill {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateBillInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateBillInput {
+  id: Int!
+}
+
+type Query {
+  bills: [Bill]!
+  bill(id: Int!): Bill
+}
+
+type Mutation {
+  createBill(createBillInput: CreateBillInput!): Bill!
+  updateBill(updateBillInput: UpdateBillInput!): Bill!
+  removeBill(id: Int!): Bill
+}
