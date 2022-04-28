@@ -11,15 +11,18 @@ import { Profile } from "./pages/profile"
 
 import './index.css'
 
+console.log(import.meta.env.VITE_AUTH0_DOMAIN)
+
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Auth0Provider
-      domain='dev-g30nhyh1.us.auth0.com'
-      clientId='g7sjNHAeAppFqbJbdCQNQSi0StAjXdcg'
-      redirectUri={window.location.origin}
-      audience='https://dev-g30nhyh1.us.auth0.com/api/v2/'
-      scope="read:current_user update:current_user_metadata"
+        domain={import.meta.env.VITE_AUTH0_DOMAIN}
+        clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+        redirectUri={window.location.origin}
+        audience={import.meta.env.VITE_AUTH0_AUDIENCE}
+        scope="read:current_user update:current_user_metadata"
       >
       <Routes>
         <Route path="/" element={<App />} />
