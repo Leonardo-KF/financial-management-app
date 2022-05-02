@@ -5,8 +5,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { expressjwt } from 'express-jwt';
-import { expressJwtSecret } from 'jwks-rsa';
+import { GqlExecutionContext } from '@nestjs/graphql';
+import { auth } from 'express-oauth2-jwt-bearer';
 import { promisify } from 'node:util';
 
 //midleware (express) (request, response)
@@ -21,29 +21,26 @@ export class AuthorizationGuard implements CanActivate {
     this.AUTH0_DOMAIN = this.configService.get('AUTH0_DOMAIN') ?? '';
   }
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const httpContext = context.switchToHttp();
-    const req = httpContext.getRequest();
-    const res = httpContext.getResponse();
+    // estrutura para http
+    // const httpContext = context.switchToHttp();
+    // const req = httpContext.getRequest();
+    // const res = httpContext.getResponse();
+
+    const { req, res } = GqlExecutionContext.create(context).getContext();
 
     const checkJWT = promisify(
-      expressjwt({
-        secret: expressJwtSecret({
-          cache: true,
-          rateLimit: true,
-          jwksRequestsPerMinute: 5,
-          jwksUri: `${this.AUTH0_DOMAIN}.well-known/jwks.json`,
-        }),
+      auth({
         audience: this.AUTH0_AUDIENCE,
-        issuer: this.AUTH0_DOMAIN,
-        algorithms: ['RS256'],
+        issuerBaseURL: `${this.AUTH0_DOMAIN}`,
+
+        // jwksUri: `${this.AUTH0_DOMAIN}/.well-known/jwks.json`,
       }),
     );
 
     try {
       await checkJWT(req, res);
       return true;
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
       throw new UnauthorizedException();
     }
   }

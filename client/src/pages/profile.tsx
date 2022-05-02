@@ -9,9 +9,8 @@ export function Profile() {
 
     const Audience = import.meta.env.VITE_AUTH0_ISSUER_BASE_URL
 
-    console.log(Audience)
     async function getToken () {
-        
+
         const token = await getAccessTokenSilently({
             audience: Audience,
             scope: 'read:current_user'
