@@ -3,10 +3,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import path from 'path';
-import { BillsService } from '../services/bills.service';
 import { DatabaseModule } from '../database/database.module';
-import { ProductsResolver } from './graphql/resolvers/bills.resolver';
-import { UsersService } from 'src/services/users.service';
+import { TesteResolver } from './teste.resolver';
 
 //configmodule is a nestjs dependencia that allows us to access the .env file
 
@@ -19,6 +17,6 @@ import { UsersService } from 'src/services/users.service';
       autoSchemaFile: path.resolve(process.cwd(), 'src/schema.gql'),
     }),
   ],
-  providers: [ProductsResolver, BillsService, UsersService],
+  providers: [TesteResolver],
 })
 export class HttpModule {}

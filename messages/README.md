@@ -26,6 +26,46 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Why use graphQL?
+
+- Overfetching
+  - example:
+    - http://localhost:3001/users
+      DB (users, bills)
+      A REST API always return both informations
+- Underfetching
+  - example:
+    - http://localhost:3001/bills
+      DB(bills)
+      In REST API this route return Bills
+    - https://localhost:3001/users
+      DB(users)
+      In REST API this route return Users
+
+```gql
+- http://localhost:3001/graphql
+
+query{
+  users {
+    id
+    name
+    salary
+  }
+  bills{
+   title
+   description
+   value
+   expiration
+  }
+}
+
+```
+
+## Difficulties
+
+- Cache
+- Errors
+
 ## Installation
 
 ```bash
