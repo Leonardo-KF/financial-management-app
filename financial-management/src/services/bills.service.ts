@@ -9,16 +9,27 @@ interface CreateBillParams {
   userId: string;
 }
 
+interface UpdateBillParams {
+  title: string;
+  value: number;
+  description: string;
+  expiration: Date;
+}
+
 @Injectable()
 export class BillsService {
   constructor(private prisma: PrismaService) {}
 
-  async getBills() {
-    return this.prisma.bills.findMany();
+  async getBillsFromUser(userId: string) {
+    return await this.prisma.bills.findMany({
+      where: {
+        userId,
+      },
+    });
   }
 
   async getBill(id: string) {
-    return this.prisma.bills.findFirst({
+    return await this.prisma.bills.findUnique({
       where: {
         id,
       },
@@ -26,8 +37,25 @@ export class BillsService {
   }
 
   async createBill(data: CreateBillParams) {
-    return this.prisma.bills.create({
+    return await this.prisma.bills.create({
       data,
+    });
+  }
+
+  async updateBill(id: string, data: UpdateBillParams) {
+    return await this.prisma.bills.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
+  async deleteBill(id: string) {
+    return await this.prisma.bills.delete({
+      where: {
+        id,
+      },
     });
   }
 }

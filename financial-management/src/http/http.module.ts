@@ -7,6 +7,7 @@ import { BillsService } from '../services/bills.service';
 import { DatabaseModule } from '../database/database.module';
 import { ProductsResolver } from './graphql/resolvers/bills.resolver';
 import { UsersService } from 'src/services/users.service';
+import { UsersResolver } from './graphql/resolvers/user.resolver';
 
 //configmodule is a nestjs dependencia that allows us to access the .env file
 
@@ -19,6 +20,6 @@ import { UsersService } from 'src/services/users.service';
       autoSchemaFile: path.resolve(process.cwd(), 'src/schema.gql'),
     }),
   ],
-  providers: [ProductsResolver, BillsService, UsersService],
+  providers: [ProductsResolver, UsersResolver, BillsService, UsersService],
 })
 export class HttpModule {}

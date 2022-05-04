@@ -16,27 +16,35 @@ export class ProductsResolver {
     private usersService: UsersService,
   ) {}
 
-  @Query(() => [Bill])
-  @UseGuards(AuthorizationGuard)
-  bills() {
-    return this.billsService.getBills();
-  }
-
   @Mutation(() => Bill)
   @UseGuards(AuthorizationGuard)
   async createBill(
     @Args('data') data: CreateBillInput,
     @CurrentUser() user: AuthUser,
   ) {
-    const authUser = await this.usersService.getUserByAuthUserId(user.sub);
+    let authUser = await this.usersService.getUserByAuthUserId(user.sub);
 
-    // if (!authUser) {
-    //   throw new Error('User not found');
-    // }
+    if (!authUser) {
+      authUser = await this.usersService.createUser({ authUserId: user.sub });
+    }
 
-    return null;
-    // return this.billsService.createBill({
-    //   ...data,
-    // });
+    return this.billsService.createBill({
+      ...data,
+      userId: authUser.id,
+    });
+  }
+  @Mutation(() => Bill)
+  @UseGuards(AuthorizationGuard)
+  async updateBill(
+    @Args('id') id: string,
+    @Args('data') data: CreateBillInput,
+  ) {
+    return this.billsService.updateBill(id, data);
+  }
+
+  @Mutation(() => Bill)
+  @UseGuards(AuthorizationGuard)
+  async deleteBill(@Args('id') id: string) {
+    return this.billsService.deleteBill(id);
   }
 }

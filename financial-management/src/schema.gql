@@ -15,12 +15,19 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Query {
+type User {
+  id: ID!
   bills: [Bill!]!
+}
+
+type Query {
+  me: User!
 }
 
 type Mutation {
   createBill(data: CreateBillInput!): Bill!
+  updateBill(id: String!, data: CreateBillInput!): Bill!
+  deleteBill(id: String!): Bill!
 }
 
 input CreateBillInput {
