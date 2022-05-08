@@ -10,6 +10,8 @@ export const CurrentUser = createParamDecorator(
     const ctx = GqlExecutionContext.create(context);
     const req = ctx.getContext().req;
 
+    console.log(req.auth);
+
     return req.auth.payload;
   },
 );

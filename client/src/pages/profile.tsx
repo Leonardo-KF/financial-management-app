@@ -21,6 +21,7 @@ export function Profile() {
 
     useEffect(() => {
         getToken();
+        console.log("Profile rendered");
     },[])
 
     return (

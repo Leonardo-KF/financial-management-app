@@ -11,15 +11,16 @@ datasource db {
 }
 
 model Receiver {
-  id              Int               @id @default(autoincrement())
-  name            String
-  email           String
-  sendingMessages SendingMessages[]
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @default(now()) @updatedAt
+  id             Int              @id @default(autoincrement())
+  authUserId     String           @unique
+  name           String
+  email          String
+  sendedMessages SendedMessages[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
 }
 
-model SendingMessages {
+model SendedMessages {
   id          Int      @id @default(autoincrement())
   title       String
   value       Float

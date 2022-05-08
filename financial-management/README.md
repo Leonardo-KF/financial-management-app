@@ -66,6 +66,15 @@ query{
 - Cache
 - Errors
 
+## message-brokers
+
+- taking actions as a side effect
+
+  financialApp -> Kafka (Database)
+  messageApp <- Kafka (bills)
+
+  Publish/Subscribe
+
 ## Installation
 
 ```bash

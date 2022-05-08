@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { KafkaService } from '../messaging/kafka.service';
 import { PrismaService } from '../database/prisma/prisma.service';
+import { Cron } from '@nestjs/schedule';
 
 interface CreateBillParams {
   title: string;
@@ -18,7 +20,7 @@ interface UpdateBillParams {
 
 @Injectable()
 export class BillsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private kafka: KafkaService) {}
 
   async getBillsFromUser(userId: string) {
     return await this.prisma.bills.findMany({
@@ -56,6 +58,38 @@ export class BillsService {
       where: {
         id,
       },
+    });
+  }
+  // (segundo, minuto, hora, dia, mês, dia da semana)
+  @Cron('*/10 * * * * *')
+  async allBills() {
+    console.log('running cron');
+    const date = Date.now();
+    const currentDay =
+      new Date(date).toISOString().slice(0, 10) + 'T00:00:00.000Z';
+
+    const bills = await this.prisma.bills.findMany({
+      where: {
+        expiration: currentDay,
+      },
+    });
+
+    bills.map(async (bill) => {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: bill.userId,
+        },
+      });
+      this.kafka.emit('financialApp.billsExpired', {
+        user: {
+          authUserId: user.authUserId,
+        },
+        bill: {
+          title: bill.title,
+          value: bill.value,
+          description: bill.description,
+        },
+      });
     });
   }
 }

@@ -8,6 +8,8 @@ import { DatabaseModule } from '../database/database.module';
 import { ProductsResolver } from './graphql/resolvers/bills.resolver';
 import { UsersService } from 'src/services/users.service';
 import { UsersResolver } from './graphql/resolvers/user.resolver';
+import { ScheduleModule } from '@nestjs/schedule';
+import { MessagingModule } from 'src/messaging/messaging.module';
 
 //configmodule is a nestjs dependencia that allows us to access the .env file
 
@@ -15,6 +17,8 @@ import { UsersResolver } from './graphql/resolvers/user.resolver';
   imports: [
     ConfigModule.forRoot(),
     DatabaseModule,
+    MessagingModule,
+    ScheduleModule.forRoot(),
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: path.resolve(process.cwd(), 'src/schema.gql'),
