@@ -61,7 +61,7 @@ export class BillsService {
     });
   }
   // (segundo, minuto, hora, dia, mês, dia da semana)
-  @Cron('*/10 * * * * *')
+  @Cron('* * 11 * * *')
   async allBills() {
     console.log('running cron');
     const date = Date.now();
