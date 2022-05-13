@@ -1,5 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
+import { MailService } from '../../mail/mail.service';
 import { ReceiversService } from '../../services/receiver.service';
 // json2ts
 interface User {
@@ -19,7 +20,10 @@ interface billsExpiratedPayload {
 
 @Controller()
 export class BillsController {
-  constructor(private receiversService: ReceiversService) {}
+  constructor(
+    private receiversService: ReceiversService,
+    private mailService: MailService,
+  ) {}
 
   @EventPattern('financialApp.billsExpired')
   async billsExpirated(@Payload('value') payload: billsExpiratedPayload) {
@@ -35,5 +39,6 @@ export class BillsController {
       );
       receiver = await this.receiversService.createReceiver(user);
     }
+    await this.mailService.sendEmail(receiver, payload.bill);
   }
 }

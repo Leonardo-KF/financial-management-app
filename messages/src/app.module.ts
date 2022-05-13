@@ -6,6 +6,7 @@ import { MessagesService } from './services/message.service';
 import { ReceiversService } from './services/receiver.service';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './database/prisma/prisma.service';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { PrismaService } from './database/prisma/prisma.service';
     DatabaseModule,
     HttpModule,
     MessagingModule,
+    MailModule,
   ],
   controllers: [],
   providers: [MessagesService, ReceiversService, PrismaService],
