@@ -12,9 +12,9 @@ interface CreateBillParams {
 }
 
 interface UpdateBillParams {
-  title: string;
+  title?: string;
   value: number;
-  description: string;
+  description?: string;
   expiration: Date;
 }
 

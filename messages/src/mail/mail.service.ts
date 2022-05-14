@@ -22,7 +22,7 @@ export class MailService {
     await this.mailerService.sendMail({
       to: user.email,
       subject: 'Your bill expired to day',
-      template: './billExpirated',
+      template: 'billExpirated',
       context: {
         name: user.name,
         bill: Bill,

@@ -5,6 +5,7 @@ import { BillsService } from '../../../services/bills.service';
 import { UsersService } from '../../../services/users.service';
 import { AuthorizationGuard } from '../../auth/authorization.guard';
 import { CreateBillInput } from '../inputs/create-bill-input';
+import { UpdateBillInput } from '../inputs/update-bill-input';
 import { Bill } from '../models/bill';
 
 // KISS - keep it simple and stupid
@@ -37,7 +38,7 @@ export class ProductsResolver {
   @UseGuards(AuthorizationGuard)
   async updateBill(
     @Args('id') id: string,
-    @Args('data') data: CreateBillInput,
+    @Args('data') data: UpdateBillInput,
   ) {
     return this.billsService.updateBill(id, data);
   }

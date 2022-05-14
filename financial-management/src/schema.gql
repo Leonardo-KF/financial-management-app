@@ -26,7 +26,7 @@ type Query {
 
 type Mutation {
   createBill(data: CreateBillInput!): Bill!
-  updateBill(id: String!, data: CreateBillInput!): Bill!
+  updateBill(id: String!, data: UpdateBillInput!): Bill!
   deleteBill(id: String!): Bill!
 }
 
@@ -34,5 +34,12 @@ input CreateBillInput {
   title: String!
   value: Float!
   description: String!
+  expiration: DateTime!
+}
+
+input UpdateBillInput {
+  title: String
+  value: Float!
+  description: String
   expiration: DateTime!
 }
