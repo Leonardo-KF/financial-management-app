@@ -1,0 +1,10 @@
+query Me {
+  me {
+    bills {
+      title
+      value
+      description
+      expiration
+    }
+  }
+}
